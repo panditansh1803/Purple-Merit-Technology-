@@ -86,7 +86,7 @@ pip install -r requirements.txt
 > **Note:** The system runs fully in **rule-based mode** with no API key required.  
 > All tools use Python's standard library (`statistics`, `re`, `collections`).
 
-### 2. (Optional) Enable LLM synthesis via Gemini
+### 2. (Optional) Enable LLM synthesis via Gemini or any other LLM model 
 
 ```bash
 # Windows PowerShell
