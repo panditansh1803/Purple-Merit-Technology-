@@ -1,0 +1,201 @@
+{
+  "feature": "Smart Payment Routing v2.0",
+  "launch_date": "2026-03-31",
+  "baseline_period": "Day 1-7 (pre-launch)",
+  "launch_period": "Day 8-14 (post-launch)",
+  "metrics": {
+    "dau": {
+      "label": "Daily Active Users",
+      "unit": "users",
+      "baseline_target": 12000,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 11800, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 12100, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 11950, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 12200, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 12050, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 11900, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 12000, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 12400, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 12600, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 11800, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 11200, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 10900, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 10600, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 10400, "phase": "post"}
+      ]
+    },
+    "retention_d1": {
+      "label": "Day-1 Retention Rate",
+      "unit": "percent",
+      "baseline_target": 55.0,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 54.2, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 55.1, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 54.8, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 55.5, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 56.0, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 55.3, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 54.9, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 53.1, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 51.8, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 49.5, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 47.2, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 45.8, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 44.1, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 43.0, "phase": "post"}
+      ]
+    },
+    "retention_d7": {
+      "label": "Day-7 Retention Rate",
+      "unit": "percent",
+      "baseline_target": 28.0,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 27.5, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 28.2, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 28.0, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 27.8, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 28.5, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 28.1, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 28.0, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 27.2, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 26.5, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 25.1, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 23.8, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 22.4, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 21.0, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 19.5, "phase": "post"}
+      ]
+    },
+    "crash_rate": {
+      "label": "Crash Rate",
+      "unit": "percent",
+      "baseline_target": 0.5,
+      "alert_threshold": 1.5,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 0.42, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 0.45, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 0.41, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 0.48, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 0.44, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 0.43, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 0.46, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 0.68, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 0.95, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 1.42, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 2.10, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 2.85, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 3.20, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 3.45, "phase": "post"}
+      ]
+    },
+    "api_latency_p95": {
+      "label": "API Latency p95",
+      "unit": "milliseconds",
+      "baseline_target": 250,
+      "alert_threshold": 600,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 235, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 248, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 241, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 252, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 245, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 238, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 250, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 310, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 420, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 560, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 720, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 890, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 950, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 1020, "phase": "post"}
+      ]
+    },
+    "payment_success_rate": {
+      "label": "Payment Success Rate",
+      "unit": "percent",
+      "baseline_target": 98.5,
+      "alert_threshold": 95.0,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 98.8, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 98.6, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 98.9, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 98.7, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 98.5, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 98.8, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 98.6, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 97.8, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 96.5, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 94.2, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 92.1, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 90.5, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 89.3, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 88.7, "phase": "post"}
+      ]
+    },
+    "support_tickets": {
+      "label": "Support Ticket Volume",
+      "unit": "tickets/day",
+      "baseline_target": 85,
+      "alert_threshold": 200,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 78, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 82, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 80, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 88, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 85, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 81, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 84, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 120, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 168, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 245, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 312, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 389, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 420, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 445, "phase": "post"}
+      ]
+    },
+    "feature_adoption": {
+      "label": "Feature Adoption Funnel Completion",
+      "unit": "percent",
+      "baseline_target": 35.0,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 0.0, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 0.0, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 0.0, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 0.0, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 0.0, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 0.0, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 2.1, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 18.5, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 22.3, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 20.1, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 17.8, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 15.2, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 12.9, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 11.4, "phase": "post"}
+      ]
+    },
+    "signup_conversion": {
+      "label": "Activation / Signup Conversion",
+      "unit": "percent",
+      "baseline_target": 22.0,
+      "data": [
+        {"day": 1, "date": "2026-03-25", "value": 21.8, "phase": "pre"},
+        {"day": 2, "date": "2026-03-26", "value": 22.3, "phase": "pre"},
+        {"day": 3, "date": "2026-03-27", "value": 22.0, "phase": "pre"},
+        {"day": 4, "date": "2026-03-28", "value": 22.5, "phase": "pre"},
+        {"day": 5, "date": "2026-03-29", "value": 21.9, "phase": "pre"},
+        {"day": 6, "date": "2026-03-30", "value": 22.1, "phase": "pre"},
+        {"day": 7, "date": "2026-03-31", "value": 22.4, "phase": "pre"},
+        {"day": 8, "date": "2026-04-01", "value": 23.1, "phase": "post"},
+        {"day": 9, "date": "2026-04-02", "value": 23.8, "phase": "post"},
+        {"day": 10, "date": "2026-04-03", "value": 22.0, "phase": "post"},
+        {"day": 11, "date": "2026-04-04", "value": 20.5, "phase": "post"},
+        {"day": 12, "date": "2026-04-05", "value": 19.2, "phase": "post"},
+        {"day": 13, "date": "2026-04-06", "value": 18.1, "phase": "post"},
+        {"day": 14, "date": "2026-04-07", "value": 17.0, "phase": "post"}
+      ]
+    }
+  }
+}

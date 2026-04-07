@@ -1,0 +1,435 @@
+{
+  "decision": "Roll Back",
+  "rationale": {
+    "summary": "Multiple critical metrics have breached rollback thresholds simultaneously since the Smart Payment Routing v2.0 launch on 2026-03-31. The crash rate is at 3.45% (threshold: 2.0%), API latency p95 at 1020ms (threshold: 800ms), and payment success rate at 88.7% (threshold: 92%). User sentiment is 44.4% negative with confirmed double-charge incidents.",
+    "key_drivers": [
+      "Crash Rate: 3.45 percent (+374.6% vs pre-launch)",
+      "API Latency p95: 1020 milliseconds (+185.0% vs pre-launch)",
+      "Payment Success Rate: 88.7 percent (-6.0% vs pre-launch)",
+      "Support Ticket Volume: 445 tickets/day (+263.1% vs pre-launch)"
+    ],
+    "metric_references": {
+      "dau": {
+        "label": "Daily Active Users",
+        "pre_mean": 12000,
+        "post_latest": 10400,
+        "pct_change": -4.88,
+        "status": "WATCH",
+        "unit": "users"
+      },
+      "retention_d1": {
+        "label": "Day-1 Retention Rate",
+        "pre_mean": 55.114,
+        "post_latest": 43.0,
+        "pct_change": -13.3,
+        "status": "WATCH",
+        "unit": "percent"
+      },
+      "retention_d7": {
+        "label": "Day-7 Retention Rate",
+        "pre_mean": 28.014,
+        "post_latest": 19.5,
+        "pct_change": -15.6,
+        "status": "WARNING",
+        "unit": "percent"
+      },
+      "crash_rate": {
+        "label": "Crash Rate",
+        "pre_mean": 0.441,
+        "post_latest": 3.45,
+        "pct_change": 374.6,
+        "status": "CRITICAL",
+        "unit": "percent"
+      },
+      "api_latency_p95": {
+        "label": "API Latency p95",
+        "pre_mean": 244.143,
+        "post_latest": 1020,
+        "pct_change": 184.96,
+        "status": "CRITICAL",
+        "unit": "milliseconds"
+      },
+      "payment_success_rate": {
+        "label": "Payment Success Rate",
+        "pre_mean": 98.7,
+        "post_latest": 88.7,
+        "pct_change": -6.05,
+        "status": "CRITICAL",
+        "unit": "percent"
+      },
+      "support_tickets": {
+        "label": "Support Ticket Volume",
+        "pre_mean": 82.571,
+        "post_latest": 445,
+        "pct_change": 263.15,
+        "status": "CRITICAL",
+        "unit": "tickets/day"
+      },
+      "feature_adoption": {
+        "label": "Feature Adoption Funnel Completion",
+        "pre_mean": 0.3,
+        "post_latest": 11.4,
+        "pct_change": 5528.67,
+        "status": "OK",
+        "unit": "percent"
+      },
+      "signup_conversion": {
+        "label": "Activation / Signup Conversion",
+        "pre_mean": 22.143,
+        "post_latest": 17.0,
+        "pct_change": -7.29,
+        "status": "WATCH",
+        "unit": "percent"
+      }
+    },
+    "feedback_summary": "45 feedback entries analyzed. 44.4% negative. Top pain points: payment failure, double charge, slow loading. NPS proxy: -11.1.",
+    "pm_framing": "5 critical metrics have breached rollback thresholds.",
+    "critic_note": "Roll Back immediately. The confluence of a payment success rate collapse, confirmed double-charge incidents, crash rate above rollback threshold, and a 430% support ticket surge indicates a systemic failure - not transient noise."
+  },
+  "risk_register": [
+    {
+      "risk_id": "R-001",
+      "risk": "Third-party SDK cold-start latency (payment-router-sdk v3.1.2)",
+      "category": "Technical",
+      "severity": "High",
+      "probability": "High",
+      "impact": "Increased API latency -> payment timeouts -> revenue loss",
+      "evidence": "Latency p95 increased 308% post-launch (250ms -> 1020ms)",
+      "mitigation": "Downgrade to v3.1.1 or implement SDK warm-up pre-call. Hotfix ETA: 4h.",
+      "owner": "Platform Engineering"
+    },
+    {
+      "risk_id": "R-002",
+      "risk": "DB migration lock causing read contention on transactions table",
+      "category": "Infrastructure",
+      "severity": "Medium",
+      "probability": "Medium",
+      "impact": "Intermittent payment processing failures during peak hours",
+      "evidence": "Known pre-launch risk - not confirmed as root cause yet",
+      "mitigation": "Run EXPLAIN ANALYZE on routing queries. Optimize with index on routing_events.created_at.",
+      "owner": "DBA / Infrastructure"
+    },
+    {
+      "risk_id": "R-003",
+      "risk": "ML routing model mis-classifying transactions leading to wrong gateway selection",
+      "category": "AI/ML",
+      "severity": "High",
+      "probability": "High",
+      "impact": "Payment failures for micro-transactions; cascading retry storms",
+      "evidence": "User reports of 'routing to wrong gateway'; model confidence < 8% for <₹500 txns",
+      "mitigation": "Disable ML routing for transactions < ₹500 immediately; use static fallback rules.",
+      "owner": "ML Team"
+    },
+    {
+      "risk_id": "R-004",
+      "risk": "Double-charge incidents due to gateway health cache stale data",
+      "category": "Financial",
+      "severity": "Critical",
+      "probability": "Confirmed",
+      "impact": "User trust erosion, chargeback liability, possible regulatory attention",
+      "evidence": "15+ support tickets reporting double deduction; cache TTL bug identified in release notes",
+      "mitigation": "Emergency cache flush NOW. Deploy R-004-hotfix to invalidate stale gateway cache. Proactive refund batch for affected users.",
+      "owner": "Payments Engineering + Finance"
+    },
+    {
+      "risk_id": "R-005",
+      "risk": "Support queue saturation",
+      "category": "Operational",
+      "severity": "High",
+      "probability": "Confirmed",
+      "impact": "Delayed resolution of payment failures -> churn acceleration",
+      "evidence": "Support tickets: 84/day (pre) -> 445/day (post) - 430% increase",
+      "mitigation": "Activate T2 support surge team. Deploy chatbot auto-response for known issues. Triage double-charge tickets as P0.",
+      "owner": "Customer Success"
+    },
+    {
+      "risk_id": "R-006",
+      "risk": "Cascading user churn if rollback is delayed",
+      "category": "Business",
+      "severity": "Critical",
+      "probability": "High",
+      "impact": "D1 retention declined 21.7%; continued decline will compress revenue",
+      "evidence": "DAU dropped 13.3% in 7 days post-launch; retention trend is monotonically decreasing",
+      "mitigation": "Rollback or pause within next 2 hours. Offer retention incentive to recently churned users.",
+      "owner": "Product + Growth"
+    },
+    {
+      "risk_id": "R-007",
+      "risk": "Payment success rate below 90% - approaching regulatory reporting threshold",
+      "category": "Compliance",
+      "severity": "Critical",
+      "probability": "Confirmed",
+      "impact": "Possible RBI / payment network compliance violations if sustained",
+      "evidence": "Latest payment success rate: 88.7%",
+      "mitigation": "Immediate rollback. Brief legal/compliance team. Prepare incident report.",
+      "owner": "Legal + Payments"
+    }
+  ],
+  "action_plan": {
+    "24h": [
+      {
+        "action": "Execute rollback: flip feature flag `payment_routing_v2` to false",
+        "owner": "Platform Engineering",
+        "priority": "P0 - Immediate"
+      },
+      {
+        "action": "Redeploy payments-service:v1.8.5",
+        "owner": "DevOps / SRE",
+        "priority": "P0 - Immediate"
+      },
+      {
+        "action": "Run DB rollback script: scripts/rollback_routing_events.sql",
+        "owner": "DBA",
+        "priority": "P0 - Immediate"
+      },
+      {
+        "action": "Emergency cache flush for gateway health cache",
+        "owner": "Payments Engineering",
+        "priority": "P0 - Immediate"
+      },
+      {
+        "action": "Identify all double-charge affected users; initiate batch refunds",
+        "owner": "Finance + Payments Eng",
+        "priority": "P0 - Within 2h"
+      },
+      {
+        "action": "Publish internal incident report to leadership + on-call",
+        "owner": "PM + Engineering Lead",
+        "priority": "P1 - Within 2h"
+      },
+      {
+        "action": "Post user-facing status update acknowledging payment issues",
+        "owner": "Marketing / Comms",
+        "priority": "P1 - Within 2h"
+      },
+      {
+        "action": "Activate T2 support surge team; triage all P0 tickets",
+        "owner": "Customer Success",
+        "priority": "P1 - Immediate"
+      },
+      {
+        "action": "Verify payment success rate recovers to >98% post-rollback",
+        "owner": "SRE / Data Analyst",
+        "priority": "P1 - Monitor"
+      }
+    ],
+    "48h": [
+      {
+        "action": "Root cause analysis (RCA) document: identify crash_rate and latency root cause",
+        "owner": "Engineering + Data",
+        "priority": "P1"
+      },
+      {
+        "action": "Fix payment-router-sdk cold-start latency (downgrade or warm-up strategy)",
+        "owner": "Platform Engineering",
+        "priority": "P1"
+      },
+      {
+        "action": "Disable ML routing for transactions < ₹500; use static fallback rules",
+        "owner": "ML Team",
+        "priority": "P1"
+      },
+      {
+        "action": "Fix gateway health cache stale data bug (cache invalidation hotfix)",
+        "owner": "Payments Engineering",
+        "priority": "P1"
+      },
+      {
+        "action": "Review and harden DB migration locking strategy",
+        "owner": "DBA",
+        "priority": "P2"
+      },
+      {
+        "action": "Design A/B test framework for Smart Routing v2.1 re-launch (5% canary)",
+        "owner": "PM + Engineering",
+        "priority": "P2"
+      },
+      {
+        "action": "Send personalized apology + compensation offer to all affected users",
+        "owner": "Customer Success + Marketing",
+        "priority": "P2"
+      },
+      {
+        "action": "iOS Safari payment modal CSS fix deployment",
+        "owner": "Frontend",
+        "priority": "P3"
+      }
+    ]
+  },
+  "communication_plan": {
+    "internal": "Elevated negativity signal. Monitor closely and prepare escalation draft.",
+    "external": "Post in-app banner: 'We are aware of payment issues and our team is working on a fix.'",
+    "suggested_tone": "Empathetic, transparent, action-oriented",
+    "channels_to_address": [
+      "support_chat",
+      "play_store",
+      "support_email"
+    ]
+  },
+  "confidence_score": 0.97,
+  "confidence_boosters": [
+    "Confirm root cause of crash_rate spike (crash dump analysis)",
+    "A/B test data isolating new routing logic vs baseline",
+    "Exact count of double-charge affected users from DB query",
+    "Real-time payment success rate per gateway (Stripe vs Razorpay vs PayU breakdown)",
+    "D1 retention for cohort exposed ONLY to new routing (not entire user base)",
+    "ML model routing decision audit log for past 48 hours"
+  ],
+  "weighted_risk_score": 4.733,
+  "agent_reports": {
+    "pm": {
+      "recommendation": "Roll Back",
+      "rollback_triggers": [
+        "Payment Success Rate = 88.7 (below rollback threshold 92.0)",
+        "API Latency p95 = 1020 (exceeds rollback threshold 800)",
+        "Crash Rate = 3.45 (exceeds rollback threshold 2.0)",
+        "Day-1 Retention Rate = 43.0 (below rollback threshold 45.0)",
+        "Support Ticket Volume = 445 (exceeds rollback threshold 300)"
+      ],
+      "warning_triggers": [],
+      "risk_score": 5.0,
+      "user_impact": "Payment failures and crash spikes are directly degrading the checkout experience for active users. Retention decline signals users are abandoning the platform post-launch. User trust is at risk."
+    },
+    "data_analyst": {
+      "trend_summary": {
+        "critical_metrics": 4,
+        "warning_metrics": 1,
+        "ok_metrics": 4
+      },
+      "key_findings": [
+        "Day-7 Retention Rate decreased by 15.6% [Status: WARNING, Anomaly: low]",
+        "Crash Rate increased by 374.6% [Status: CRITICAL, Anomaly: medium]",
+        "API Latency p95 increased by 185.0% [Status: CRITICAL, Anomaly: medium]",
+        "Payment Success Rate decreased by 6.0% [Status: CRITICAL, Anomaly: critical]",
+        "Support Ticket Volume increased by 263.1% [Status: CRITICAL, Anomaly: critical]"
+      ],
+      "confidence_note": "High confidence on payment_success_rate and crash_rate (clear monotonic degradation). Lower confidence on feature_adoption (only 7 post-launch data points).",
+      "risk_score": 5.0
+    },
+    "marketing": {
+      "sentiment": {
+        "positive_pct": 33.3,
+        "neutral_pct": 22.2,
+        "negative_pct": 44.4,
+        "nps_proxy": -11.1,
+        "total_entries": 45
+      },
+      "top_pain_points": {
+        "payment failure": 8,
+        "double charge": 6,
+        "slow loading": 6,
+        "crash on payment": 5,
+        "refund issues": 5
+      },
+      "perceptual_risks": [
+        "Multiple reports of double charges - legal/chargeback liability risk",
+        "High-volume payment failure complaints - churn acceleration likely"
+      ],
+      "risk_score": 3.22
+    },
+    "risk": {
+      "critic_recommendation": "Roll Back immediately. The confluence of a payment success rate collapse, confirmed double-charge incidents, crash rate above rollback threshold, and a 430% support ticket surge indicates a systemic failure - not transient noise.",
+      "assumption_challenges": [
+        "CHALLENGE [Data]: 4 CRITICAL metrics simultaneously - this is not a coincidence. Root cause is likely systemic (SDK or ML model), not individual metric noise."
+      ],
+      "evidence_gaps": [
+        "Root cause of crash_rate spike not yet identified - is it SDK, ML model, or DB?",
+        "No A/B test data available to isolate new routing logic impact vs. baseline",
+        "Double-charge affected user count unknown - quantify before proceeding",
+        "iOS Safari affected user % unknown - may be larger than assumed"
+      ],
+      "critical_risk_count": 3,
+      "risk_score": 5.0
+    }
+  },
+  "agent_weights_used": {
+    "pm": 0.25,
+    "data_analyst": 0.35,
+    "marketing": 0.15,
+    "risk": 0.25
+  },
+  "tool_call_trace": [
+    {
+      "agent": "PM-Agent",
+      "tool": "success_criteria_evaluator",
+      "timestamp": "2026-04-07T13:54:44.311762Z",
+      "inputs_summary": {
+        "metrics_checked": [
+          "payment_success_rate",
+          "api_latency_p95",
+          "crash_rate",
+          "retention_d1",
+          "support_tickets"
+        ]
+      },
+      "output_summary": "5 rollback triggers, 0 warnings"
+    },
+    {
+      "agent": "DataAnalyst-Agent",
+      "tool": "metric_aggregator",
+      "timestamp": "2026-04-07T13:54:44.314929Z",
+      "inputs_summary": {
+        "metrics": [
+          "dau",
+          "retention_d1",
+          "retention_d7",
+          "crash_rate",
+          "api_latency_p95",
+          "payment_success_rate",
+          "support_tickets",
+          "feature_adoption",
+          "signup_conversion"
+        ]
+      },
+      "output_summary": "Aggregated 9 metrics (pre/post means, trends)"
+    },
+    {
+      "agent": "DataAnalyst-Agent",
+      "tool": "anomaly_detector",
+      "timestamp": "2026-04-07T13:54:44.316380Z",
+      "inputs_summary": {
+        "z_threshold": 2.0
+      },
+      "output_summary": "Found 2 critical anomaly metrics: ['payment_success_rate', 'support_tickets']"
+    },
+    {
+      "agent": "DataAnalyst-Agent",
+      "tool": "trend_comparator",
+      "timestamp": "2026-04-07T13:54:44.317395Z",
+      "inputs_summary": {
+        "window": "pre-7 vs post-7 days"
+      },
+      "output_summary": "CRITICAL: 4, WARNING: 1, OK: 4"
+    },
+    {
+      "agent": "Marketing-Agent",
+      "tool": "sentiment_analyzer",
+      "timestamp": "2026-04-07T13:54:44.323556Z",
+      "inputs_summary": {
+        "total_entries": 45
+      },
+      "output_summary": "Positive: 33.3%, Neutral: 22.2%, Negative: 44.4%"
+    },
+    {
+      "agent": "Risk-Agent",
+      "tool": "risk_register_builder",
+      "timestamp": "2026-04-07T13:54:44.328645Z",
+      "inputs_summary": {
+        "sources": [
+          "release_notes",
+          "pm_report",
+          "analyst_report",
+          "marketing_report"
+        ]
+      },
+      "output_summary": "Built risk register: 7 risks (3 Critical, 3 High)"
+    }
+  ],
+  "metadata": {
+    "feature": "Smart Payment Routing v2.0",
+    "launch_date": "2026-03-31",
+    "analysis_timestamp": "2026-04-07T13:54:44.332740Z",
+    "data_window_days": 14,
+    "total_feedback_entries": 45
+  }
+}
