@@ -174,11 +174,3 @@ The system produces:
 ```
 
 ---
-
-## 📼 Demo Video
-
-[Screen recording demonstrating system run and final JSON output]
-
----
-
-*Submission: AI/ML Engineer Assessment — PurpleMerit Technologies, April 2026*
